@@ -1,31 +1,26 @@
 package com.spendwise.api.dto;
 
-import com.spendwise.api.entity.ExpenseCategory;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public class ExpenseResponse {
+public class IncomeResponse {
 
     private Long id;
     private String description;
     private BigDecimal amount;
-    private ExpenseCategory category;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public ExpenseResponse(
+    public IncomeResponse(
             Long id,
             String description,
             BigDecimal amount,
-            ExpenseCategory category,
             LocalDateTime createdAt,
             LocalDateTime updatedAt
     ) {
         this.id = id;
         this.description = description;
         this.amount = amount;
-        this.category = category;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -40,10 +35,6 @@ public class ExpenseResponse {
 
     public BigDecimal getAmount() {
         return amount;
-    }
-
-    public ExpenseCategory getCategory() {
-        return category;
     }
 
     public LocalDateTime getCreatedAt() {

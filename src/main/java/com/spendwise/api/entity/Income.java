@@ -3,8 +3,6 @@ package com.spendwise.api.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,7 +17,7 @@ import java.math.BigDecimal;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class Expense {
+public class Income {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,9 +26,6 @@ public class Expense {
 
     @Column(precision = 19, scale = 2)
     private BigDecimal amount;
-
-    @Enumerated(EnumType.STRING)
-    private ExpenseCategory category;
 
     @CreatedDate
     private LocalDateTime createdAt;
@@ -42,10 +37,6 @@ public class Expense {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
     public long getId() {
         return id;
     }
@@ -54,20 +45,16 @@ public class Expense {
         return description;
     }
 
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public ExpenseCategory getCategory() {
-        return category;
+    public BigDecimal getAmount() {
+        return amount;
     }
 
-    public void setCategory(ExpenseCategory category) {
-        this.category = category;
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 
     public LocalDateTime getCreatedAt() {

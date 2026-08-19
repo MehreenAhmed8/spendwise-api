@@ -2,6 +2,7 @@ package com.spendwise.api.auth;
 
 import com.spendwise.api.entity.User;
 import com.spendwise.api.exception.EmailAlreadyExistsException;
+import com.spendwise.api.exception.InvalidCredentialsException;
 import com.spendwise.api.repository.UserRepository;
 import com.spendwise.api.service.JwtService;
 
@@ -43,7 +44,7 @@ public class AuthService {
 
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() ->
-                        new RuntimeException("Invalid email or password")
+                        new InvalidCredentialsException("Invalid email or password")
                 );
 
         boolean passwordMatches =
@@ -53,7 +54,7 @@ public class AuthService {
                 );
 
         if (!passwordMatches) {
-            throw new RuntimeException("Invalid email or password");
+            throw new InvalidCredentialsException("Invalid email or password");
         }
 
         String  jwtToken = jwtService.generateToken(user.getId(),user.getEmail());
@@ -73,5 +74,16 @@ public class AuthService {
                 .orElseThrow(() ->
                         new RuntimeException("Authenticated user not found")
                 );
+    }
+
+    public void changePassword(ChangePasswordRequest request) {
+        User user = getAuthenticatedUser();
+
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+            throw new InvalidCredentialsException("Invalid current password");
+        }
+
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
     }
 }
